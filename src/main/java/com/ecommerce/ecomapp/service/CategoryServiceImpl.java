@@ -46,7 +46,7 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Resource Not Found"));
 
-        category.setId(categoryId);
+        category.setCategoryId(categoryId);
         return categoryRepository.save(category);
     }
 }
