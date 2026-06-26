@@ -17,6 +17,6 @@ public class Category {
     private Long categoryId;
 
     @NotBlank
-    @Size(min = 5, message = "category name must contain at least 5 characters")
+    @Size(min = 4, message = "category name must contain at least 4 characters")
     private String categoryName;
 }
