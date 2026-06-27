@@ -10,4 +10,6 @@ import java.util.Collection;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
     Collection<Object> findByCategory(Category category);
+
+    Collection<Object> findByProductNameLikeIgnoreCase(String keyword);
 }
