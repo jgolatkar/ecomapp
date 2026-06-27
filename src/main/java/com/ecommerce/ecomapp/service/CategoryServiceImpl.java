@@ -37,6 +37,7 @@ public class CategoryServiceImpl implements CategoryService {
         Page<Category> categoryPage = categoryRepository.findAll(pageRequest);
 
         List<Category> categories = categoryPage.getContent();
+
         if(categories.isEmpty()) {
             throw new APIException("No categories are available");
         }

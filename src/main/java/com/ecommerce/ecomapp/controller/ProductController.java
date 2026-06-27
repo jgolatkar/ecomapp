@@ -4,6 +4,7 @@ import com.ecommerce.ecomapp.config.AppConstants;
 import com.ecommerce.ecomapp.payload.ProductDTO;
 import com.ecommerce.ecomapp.payload.ProductResponse;
 import com.ecommerce.ecomapp.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,7 +31,7 @@ public class ProductController {
     }
 
     @PostMapping("/admin/categories/{categoryId}/product")
-    public ResponseEntity<ProductDTO> addProduct(@RequestBody ProductDTO productDTO,
+    public ResponseEntity<ProductDTO> addProduct(@Valid @RequestBody ProductDTO productDTO,
                                                  @PathVariable Long categoryId) {
         ProductDTO savedProductDTO = productService.addProduct(productDTO, categoryId);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedProductDTO);
@@ -43,7 +44,7 @@ public class ProductController {
             @RequestParam(name = "sortBy", defaultValue = AppConstants.SORT_PRODUCTS_BY, required = false) String sortBy,
             @RequestParam(name = "sortOrder", defaultValue = AppConstants.SORT_ASC, required = false) String sortOrder
     ) {
-        ProductResponse productResponse = productService.getAllProducts();
+        ProductResponse productResponse = productService.getAllProducts(pageNumber, pageSize, sortBy, sortOrder);
         return ResponseEntity.status(HttpStatus.OK).body(productResponse);
     }
 
@@ -55,7 +56,7 @@ public class ProductController {
             @RequestParam(name = "sortBy", defaultValue = AppConstants.SORT_PRODUCTS_BY, required = false) String sortBy,
             @RequestParam(name = "sortOrder", defaultValue = AppConstants.SORT_ASC, required = false) String sortOrder
     ) {
-        ProductResponse productResponse = productService.getProductsByCategory(categoryId);
+        ProductResponse productResponse = productService.getProductsByCategory(categoryId, pageNumber, pageSize, sortBy, sortOrder);
         return ResponseEntity.status(HttpStatus.OK).body(productResponse);
     }
 
@@ -67,12 +68,12 @@ public class ProductController {
             @RequestParam(name = "sortBy", defaultValue = AppConstants.SORT_PRODUCTS_BY, required = false) String sortBy,
             @RequestParam(name = "sortOrder", defaultValue = AppConstants.SORT_ASC, required = false) String sortOrder
     ) {
-        ProductResponse productResponse = productService.getProductsByKeyword(keyword);
+        ProductResponse productResponse = productService.getProductsByKeyword(keyword, pageNumber, pageSize, sortBy, sortOrder);
         return ResponseEntity.status(HttpStatus.FOUND).body(productResponse);
     }
 
     @PutMapping("/admin/products/{productId}")
-    public ResponseEntity<ProductDTO> updateProduct(@RequestBody ProductDTO productDTO,
+    public ResponseEntity<ProductDTO> updateProduct(@Valid @RequestBody ProductDTO productDTO,
                                                  @PathVariable Long productId) {
         ProductDTO updatedProductDTO = productService.updateProduct(productDTO, productId);
         return ResponseEntity.status(HttpStatus.OK).body(updatedProductDTO);
